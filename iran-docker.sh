@@ -223,16 +223,16 @@ find_fastest_proxy() {
 set_docker_proxy() {
     echo
     echo -e "${CYAN}Select Docker Registry Mirror:${NC}"
+    echo "  00) Auto-select fastest proxy"
     for i in "${!registry_proxies[@]}"; do
         echo "  $((i + 1))) https://${registry_proxies[$i]}"
     done
-    echo "  $((${#registry_proxies[@]} + 1))) Auto-select fastest proxy"
     echo "  0) Back"
     echo
     read -rp "Select (0-$((${#registry_proxies[@]} + 1))): " proxy_choice
 
     if [[ "$proxy_choice" == "0" ]]; then return; fi
-    if [[ "$proxy_choice" == "$((${#registry_proxies[@]} + 1))" ]]; then
+    if [[ "$proxy_choice" == "00" ]]; then
         # Auto-select fastest proxy
         fastest_output=$(find_fastest_proxy)
         mirror=$(echo "$fastest_output" | tail -n1)
